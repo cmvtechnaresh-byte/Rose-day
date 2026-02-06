@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Rose Day Surprise</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Quicksand:wght@400;500&display=swap');
+
+        body {
+            background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .cursive {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        /* Rose Animation Styles */
+        .rose-container {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .rose-container:hover {
+            transform: scale(1.05);
+        }
+
+        .petal {
+            fill: #e53e3e;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: center;
+        }
+
+        .hidden-petal {
+            transform: scale(0);
+            opacity: 0;
+        }
+
+        .bloom .hidden-petal {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        /* Falling petals animation */
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .floating-petal {
+            position: fixed;
+            pointer-events: none;
+            z-index: 10;
+            animation: fall 5s linear infinite;
+        }
+
+        .message-box {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease-out 0.5s;
+        }
+
+        .message-box.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Floating effect for the card */
+        .float-anim {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .dp-frame {
+            border: 4px solid white;
+            box-shadow: 0 4px 15px rgba(225, 29, 72, 0.2);
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center p-4 min-h-screen">
+
+    <!-- Header Section -->
+    <div class="text-center mb-8">
+        <h1 class="text-3xl md:text-5xl text-rose-600 cursive mb-2">Happy Rose Day, My Love</h1>
+        <p class="text-rose-400 font-medium">Click the rose to see your surprise</p>
+    </div>
+
+    <!-- The Interactive Rose -->
+    <div id="roseWrapper" class="rose-container relative w-40 h-40 md:w-56 md:h-56 flex items-center justify-center" onclick="bloomRose()">
+        <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-2xl">
+            <path d="M100,190 Q100,150 100,100" stroke="#2d5a27" stroke-width="4" fill="none" />
+            <path d="M100,160 Q80,150 70,165" fill="#4a7c44" />
+            <path d="M100,140 Q120,130 130,145" fill="#4a7c44" />
+            <path d="M100,100 Q130,70 140,110 Q120,130 100,110" fill="#c53030" />
+            <path d="M100,100 Q70,70 60,110 Q80,130 100,110" fill="#c53030" />
+            <g id="bloomGroup">
+                <path class="petal hidden-petal" d="M100,105 Q120,60 145,95 Q130,120 100,110" fill="#e53e3e" style="transition-delay: 0.1s" />
+                <path class="petal hidden-petal" d="M100,105 Q80,60 55,95 Q70,120 100,110" fill="#e53e3e" style="transition-delay: 0.2s" />
+                <path class="petal hidden-petal" d="M100,105 Q100,50 130,60 Q130,90 100,100" fill="#f56565" style="transition-delay: 0.3s" />
+                <path class="petal hidden-petal" d="M100,105 Q100,50 70,60 Q70,90 100,100" fill="#f56565" style="transition-delay: 0.4s" />
+                <circle class="petal hidden-petal" cx="100" cy="85" r="15" fill="#9b2c2c" style="transition-delay: 0.5s" />
+            </g>
+        </svg>
+    </div>
+
+    <!-- Revealed Message Card -->
+    <div id="messageBox" class="message-box mt-8 max-w-md w-full bg-white/90 backdrop-blur-md p-6 rounded-3xl shadow-2xl border-2 border-rose-100 text-center float-anim hidden relative">
+        
+        <!-- Girl DP Section -->
+        <div class="absolute -top-12 left-1/2 transform -translate-x-1/2">
+            <div class="relative group">
+                <img id="userDP" src="WhatsApp Image 2026-02-06 at 11.54.58 PM.jpeg" 
+                     class="w-24 h-24 rounded-full object-cover dp-frame" alt="Profile Picture">
+                <!-- Edit button for DP -->
+                <button onclick="changeDP()" class="absolute bottom-0 right-0 bg-rose-500 text-white p-1.5 rounded-full hover:bg-rose-600 transition-colors shadow-lg border-2 border-white" title="Change Photo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="text-rose-500 mb-2 mt-8">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mx-auto" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+        </div>
+        
+        <p class="text-xl md:text-2xl text-gray-800 cursive leading-relaxed mb-6">
+            "Happy Rose Day to the most beautiful flower in my life. Just like a rose, your love makes everything in my world bloom. I love you!"
+        </p>
+
+        <div class="mt-4 border-t border-rose-50 pt-4">
+            <p class="text-rose-600 cursive text-2xl">From love by Naresh</p>
+            <div class="text-rose-300 font-bold tracking-widest uppercase text-[9px] mt-1">Forever & Always</div>
+        </div>
+    </div>
+
+    <!-- Instructions Overlay -->
+    <div id="hint" class="fixed bottom-12 text-rose-400 animate-bounce text-sm font-medium">
+        Tap the rose bud to bloom
+    </div>
+
+    <script>
+        let bloomed = false;
+
+        function changeDP() {
+            const newUrl = prompt("Enter the URL of your wife's photo:");
+            if (newUrl && newUrl.trim() !== "") {
+                document.getElementById('userDP').src = newUrl;
+            }
+        }
+
+        function bloomRose() {
+            if (bloomed) return;
+            bloomed = true;
+
+            document.getElementById('hint').classList.add('hidden');
+            document.getElementById('bloomGroup').classList.add('bloom');
+            const messageBox = document.getElementById('messageBox');
+            messageBox.classList.remove('hidden');
+            setTimeout(() => messageBox.classList.add('show'), 100);
+            
+            for (let i = 0; i < 40; i++) {
+                setTimeout(createPetal, i * 120);
+            }
+        }
+
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.className = 'floating-petal';
+            
+            const size = Math.random() * 15 + 10;
+            const left = Math.random() * 100;
+            const duration = Math.random() * 3 + 4;
+            const delay = Math.random() * 2;
+            const hue = Math.floor(Math.random() * 20) + 340; 
+
+            petal.style.width = `${size}px`;
+            petal.style.height = `${size}px`;
+            petal.style.left = `${left}vw`;
+            petal.style.animationDuration = `${duration}s`;
+            petal.style.animationDelay = `${delay}s`;
+            petal.style.backgroundColor = `hsl(${hue}, 75%, 60%)`;
+            petal.style.borderRadius = '50% 0 50% 50%';
+            petal.style.opacity = Math.random() * 0.7 + 0.3;
+
+            document.body.appendChild(petal);
+
+            setTimeout(() => {
+                petal.remove();
+            }, (duration + delay) * 1000);
+        }
+
+        window.onload = () => {
+            for(let i=0; i<8; i++) {
+                createPetal();
+            }
+        };
+    </script>
+</body>
+</html>
